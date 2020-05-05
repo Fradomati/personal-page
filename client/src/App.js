@@ -1,6 +1,13 @@
 import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Home } from "./pages/Home/index";
 
 export const App = () => {
-  console.log("HOLA");
-  return <div>Bienvenido al primer proyecto en solitario!</div>;
+  return (
+    <Router>
+      <Switch>
+        <Route path="/" exact component={Home} />
+      </Switch>
+    </Router>
+  );
 };
