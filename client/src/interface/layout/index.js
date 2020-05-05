@@ -1,7 +1,10 @@
 import React from "react";
-import { PageContainer } from "./style";
+import { PageContainer, MainContainer } from "./style";
 
 export const Layout = ({ children }) => {
-  console.log("hola");
-  return <PageContainer>{children}</PageContainer>;
+  return (
+    <MainContainer>
+      <PageContainer>{children}</PageContainer>;
+    </MainContainer>
+  );
 };

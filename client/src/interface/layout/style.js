@@ -1,7 +1,11 @@
 import styled from "styled-components";
 
 export const PageContainer = styled.div`
-display: flex:
-justify-content: center;
-width: 80vw;
+  width: 80vw;
+`;
+
+export const MainContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
