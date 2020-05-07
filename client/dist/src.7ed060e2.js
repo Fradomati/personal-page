@@ -32254,24 +32254,7 @@ if ("development" !== "production") {
     style: _propTypes.default.object
   });
 }
-},{"react-router":"../node_modules/react-router/esm/react-router.js","@babel/runtime/helpers/esm/inheritsLoose":"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"../node_modules/react/index.js","history":"../node_modules/history/esm/history.js","prop-types":"../node_modules/prop-types/index.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js","@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","tiny-invariant":"../node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"../src/pages/Home/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Home = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Home = function Home() {
-  return /*#__PURE__*/_react.default.createElement("div", null, "Bienvenido al primer proyecto en solitario!");
-};
-
-exports.Home = Home;
-},{"react":"../node_modules/react/index.js"}],"../node_modules/shallowequal/index.js":[function(require,module,exports) {
+},{"react-router":"../node_modules/react-router/esm/react-router.js","@babel/runtime/helpers/esm/inheritsLoose":"../node_modules/@babel/runtime/helpers/esm/inheritsLoose.js","react":"../node_modules/react/index.js","history":"../node_modules/history/esm/history.js","prop-types":"../node_modules/prop-types/index.js","tiny-warning":"../node_modules/tiny-warning/dist/tiny-warning.esm.js","@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutPropertiesLoose":"../node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js","tiny-invariant":"../node_modules/tiny-invariant/dist/tiny-invariant.esm.js"}],"../node_modules/shallowequal/index.js":[function(require,module,exports) {
 //
 
 module.exports = function shallowEqual(objA, objB, compare, compareContext) {
@@ -35223,7 +35206,143 @@ if ("development" !== 'production' && "development" !== 'test' && typeof window 
 
 var _default = styled;
 exports.default = _default;
-},{"react-is":"../node_modules/react-is/index.js","react":"../node_modules/react/index.js","shallowequal":"../node_modules/shallowequal/index.js","@emotion/stylis":"../node_modules/@emotion/stylis/dist/stylis.browser.esm.js","@emotion/unitless":"../node_modules/@emotion/unitless/dist/unitless.browser.esm.js","@emotion/is-prop-valid":"../node_modules/@emotion/is-prop-valid/dist/is-prop-valid.browser.esm.js","hoist-non-react-statics":"../node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js","process":"../node_modules/process/browser.js"}],"../src/interface/layout/style.js":[function(require,module,exports) {
+},{"react-is":"../node_modules/react-is/index.js","react":"../node_modules/react/index.js","shallowequal":"../node_modules/shallowequal/index.js","@emotion/stylis":"../node_modules/@emotion/stylis/dist/stylis.browser.esm.js","@emotion/unitless":"../node_modules/@emotion/unitless/dist/unitless.browser.esm.js","@emotion/is-prop-valid":"../node_modules/@emotion/is-prop-valid/dist/is-prop-valid.browser.esm.js","hoist-non-react-statics":"../node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js","process":"../node_modules/process/browser.js"}],"../src/pages/Home/styles.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DivHome = exports.HomeContainer = void 0;
+
+var _styledComponents = _interopRequireDefault(require("styled-components"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n  width: 100%;\n  text-align: center;\n"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 100%;\n  flex-direction: column;\n"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var HomeContainer = _styledComponents.default.div(_templateObject());
+
+exports.HomeContainer = HomeContainer;
+
+var DivHome = _styledComponents.default.div(_templateObject2());
+
+exports.DivHome = DivHome;
+},{"styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js"}],"../src/interface/navbar/style.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.LiNavBar = exports.UlNavBar = exports.NavContainer = void 0;
+
+var _styledComponents = _interopRequireDefault(require("styled-components"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n  text-decoration: none;\n  list-style-type: none;\n"]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n  display: flex;\n  flex-direction: row;\n  width: 100%;\n  justify-content: space-evenly;\n"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n  display: flex;\n  width: 100%;\n"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var NavContainer = _styledComponents.default.div(_templateObject());
+
+exports.NavContainer = NavContainer;
+
+var UlNavBar = _styledComponents.default.ul(_templateObject2());
+
+exports.UlNavBar = UlNavBar;
+
+var LiNavBar = _styledComponents.default.li(_templateObject3());
+
+exports.LiNavBar = LiNavBar;
+},{"styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js"}],"../src/interface/navbar/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.NavBar = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _style = require("./style");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var NavBar = function NavBar() {
+  return /*#__PURE__*/_react.default.createElement(_style.NavContainer, null, /*#__PURE__*/_react.default.createElement(_style.UlNavBar, null, /*#__PURE__*/_react.default.createElement(_style.LiNavBar, null, "Example 1"), /*#__PURE__*/_react.default.createElement(_style.LiNavBar, null, "Example 2"), /*#__PURE__*/_react.default.createElement(_style.LiNavBar, null, "Example 3")));
+};
+
+exports.NavBar = NavBar;
+},{"react":"../node_modules/react/index.js","./style":"../src/interface/navbar/style.js"}],"../src/pages/Home/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Home = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _styles = require("./styles");
+
+var _index = require("../../interface/navbar/index");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Home = function Home() {
+  return /*#__PURE__*/_react.default.createElement(_styles.HomeContainer, null, /*#__PURE__*/_react.default.createElement(_styles.DivHome, null, "Bienvenido al primer proyecto en solitario!"), /*#__PURE__*/_react.default.createElement(_index.NavBar, null));
+};
+
+exports.Home = Home;
+},{"react":"../node_modules/react/index.js","./styles":"../src/pages/Home/styles.js","../../interface/navbar/index":"../src/interface/navbar/index.js"}],"../src/interface/layout/style.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35236,7 +35355,7 @@ var _styledComponents = _interopRequireDefault(require("styled-components"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n  display: flex;\n  justify-content: center;\n  align-items: center;\n"]);
+  var data = _taggedTemplateLiteral(["\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 100vh;\n"]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -35246,7 +35365,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n  width: 80vw;\n"]);
+  var data = _taggedTemplateLiteral(["\n  margin-top: 8vh;\n  width: 60vw;\n"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -35280,7 +35399,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var Layout = function Layout(_ref) {
   var children = _ref.children;
-  return /*#__PURE__*/_react.default.createElement(_style.MainContainer, null, /*#__PURE__*/_react.default.createElement(_style.PageContainer, null, children), ";");
+  return /*#__PURE__*/_react.default.createElement(_style.MainContainer, null, /*#__PURE__*/_react.default.createElement(_style.PageContainer, null, children));
 };
 
 exports.Layout = Layout;

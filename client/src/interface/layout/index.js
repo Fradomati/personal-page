@@ -4,7 +4,7 @@ import { PageContainer, MainContainer } from "./style";
 export const Layout = ({ children }) => {
   return (
     <MainContainer>
-      <PageContainer>{children}</PageContainer>;
+      <PageContainer>{children}</PageContainer>
     </MainContainer>
   );
 };

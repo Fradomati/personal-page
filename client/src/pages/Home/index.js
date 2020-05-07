@@ -1,5 +1,12 @@
 import React from "react";
+import { HomeContainer, DivHome } from "./styles";
+import { NavBar } from "../../interface/navbar/index";
 
 export const Home = () => {
-  return <div>Bienvenido al primer proyecto en solitario!</div>;
+  return (
+    <HomeContainer>
+      <DivHome>Bienvenido al primer proyecto en solitario!</DivHome>
+      <NavBar />
+    </HomeContainer>
+  );
 };
