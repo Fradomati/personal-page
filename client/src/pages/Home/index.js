@@ -6,7 +6,6 @@ export const Home = () => {
   return (
     <HomeContainer>
       <DivHome>Bienvenido al primer proyecto en solitario!</DivHome>
-      <NavBar />
     </HomeContainer>
   );
 };

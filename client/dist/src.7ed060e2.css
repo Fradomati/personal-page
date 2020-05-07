@@ -4,5 +4,10 @@ body {
   font-family: "Inconsolata", monospace;
 }
 
+a {
+  text-decoration: none;
+  color: black;
+}
+
 
 /*# sourceMappingURL=/src.7ed060e2.css.map */
