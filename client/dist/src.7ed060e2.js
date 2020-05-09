@@ -35321,7 +35321,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var NavBar = function NavBar() {
   return /*#__PURE__*/_react.default.createElement(_style.NavContainer, null, /*#__PURE__*/_react.default.createElement(_style.UlNavBar, null, /*#__PURE__*/_react.default.createElement(_style.LiNavBar, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/profile"
-  }, "Perfil")), /*#__PURE__*/_react.default.createElement(_style.LiNavBar, null, "Example 2"), /*#__PURE__*/_react.default.createElement(_style.LiNavBar, null, "Example 3")));
+  }, "Perfil")), /*#__PURE__*/_react.default.createElement(_style.LiNavBar, null, "Example 2"), /*#__PURE__*/_react.default.createElement(_style.LiNavBar, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: "/coords"
+  }, "Mapa"))));
 };
 
 exports.NavBar = NavBar;
@@ -35426,7 +35428,84 @@ var Profile = function Profile() {
 };
 
 exports.Profile = Profile;
-},{"react":"../node_modules/react/index.js"}],"../src/App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js"}],"../lib/CoordsApi.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CalCoords = void 0;
+
+// Funcion calculo coordenadas
+var CalCoords = function CalCoords(x) {
+  var lats = [];
+  var lngs = [];
+  x.forEach(function (co) {
+    lats.push(parseFloat(co.split(",")[0]));
+    lngs.push(parseFloat(co.split(",")[1]));
+  });
+  var lat = lats.reduce(function (acc, curr) {
+    return acc + curr;
+  }) / lats.length;
+  var lng = lngs.reduce(function (acc, curr) {
+    return acc + curr;
+  }) / lngs.length;
+  return {
+    lat: lat,
+    lng: lng
+  };
+};
+
+exports.CalCoords = CalCoords;
+},{}],"../src/pages/PrivateZone/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Map = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _CoordsApi = require("../../../lib/CoordsApi");
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var Map = function Map() {
+  var _useState = (0, _react.useState)(),
+      _useState2 = _slicedToArray(_useState, 2),
+      data = _useState2[0],
+      setData = _useState2[1];
+
+  var coords = ["41.131512,-3.8163796", "41.131512,-3.8163796", "39.367163,-3.8741367", "40.469882, -3.867181", "52.5063566,12.8643336", "37.7667858,-3.7900676", "37.7489752,-3.7412417", "41.162251,-8.6919934", "43.7801205,11.1008848"];
+  (0, _react.useEffect)(function () {
+    var starCoord = (0, _CoordsApi.CalCoords)(coords);
+    setData(starCoord);
+  }, []);
+
+  if (data) {
+    return /*#__PURE__*/_react.default.createElement("div", null, data.lat, ", ", data.lng);
+  }
+
+  return /*#__PURE__*/_react.default.createElement("div", null, "Coordinates");
+};
+
+exports.Map = Map;
+},{"react":"../node_modules/react/index.js","../../../lib/CoordsApi":"../lib/CoordsApi.js"}],"../src/App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35444,22 +35523,28 @@ var _index2 = require("./pages/Home/index");
 
 var _index3 = require("./pages/Profile/index");
 
+var _index4 = require("./pages/PrivateZone/index");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var App = function App() {
   return /*#__PURE__*/_react.default.createElement(_reactRouterDom.BrowserRouter, null, /*#__PURE__*/_react.default.createElement(_index.Layout, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Switch, null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+    path: "/",
+    exact: true,
+    component: _index2.Home
+  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/profile",
     exact: true,
     component: _index3.Profile
   }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
-    path: "/",
-    exact: true,
-    component: _index2.Home
+    path: "/coords",
+    extact: true,
+    component: _index4.Map
   }))));
 };
 
 exports.App = App;
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./interface/layout/index":"../src/interface/layout/index.js","./pages/Home/index":"../src/pages/Home/index.js","./pages/Profile/index":"../src/pages/Profile/index.js"}],"../src/index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./interface/layout/index":"../src/interface/layout/index.js","./pages/Home/index":"../src/pages/Home/index.js","./pages/Profile/index":"../src/pages/Profile/index.js","./pages/PrivateZone/index":"../src/pages/PrivateZone/index.js"}],"../src/index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
