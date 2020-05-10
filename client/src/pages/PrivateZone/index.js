@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { CalCoords } from "../../../lib/CoordsApi";
+import { MapContainer } from "./style";
+import { TOKEN_API_MAP } from "../../../tokens";
 
 export const Map = () => {
   const [data, setData] = useState();
@@ -19,14 +21,33 @@ export const Map = () => {
   useEffect(() => {
     const starCoord = CalCoords(coords);
     setData(starCoord);
-  }, []);
+    const mymap = L.map("mapId").setView([starCoord.lat, starCoord.lng], 13);
+    L.tileLayer(
+      "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
+      {
+        attribution:
+          'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: "mapbox/streets-v11",
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: TOKEN_API_MAP,
+      }
+    ).addTo(mymap);
 
-  if (data) {
-    return (
-      <div>
-        {data.lat}, {data.lng}
-      </div>
-    );
-  }
-  return <div>Coordinates</div>;
+    const marker = L.marker([starCoord.lat, starCoord.lng]).addTo(mymap);
+  }, []);
+  return (
+    <div>
+      Coordinates{" "}
+      {data ? (
+        <div>
+          {data.lat}, {data.lng}
+        </div>
+      ) : (
+        ""
+      )}
+      <MapContainer id="mapId"></MapContainer>
+    </div>
+  );
 };

@@ -35457,6 +35457,42 @@ var CalCoords = function CalCoords(x) {
 };
 
 exports.CalCoords = CalCoords;
+},{}],"../src/pages/PrivateZone/style.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MapContainer = void 0;
+
+var _styledComponents = _interopRequireDefault(require("styled-components"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n  height: 500px;\n"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var MapContainer = _styledComponents.default.div(_templateObject());
+
+exports.MapContainer = MapContainer;
+},{"styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js"}],"../tokens.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.TOKEN_API_MAP = void 0;
+var TOKEN_API_MAP = "pk.eyJ1Ijoic3Jib3IiLCJhIjoiY2s4a2pwc251MDFtejNubnp6NTgxeXRybCJ9.P4Yku1rTTf4WNS_drkpLrA";
+exports.TOKEN_API_MAP = TOKEN_API_MAP;
 },{}],"../src/pages/PrivateZone/index.js":[function(require,module,exports) {
 "use strict";
 
@@ -35468,6 +35504,10 @@ exports.Map = void 0;
 var _react = _interopRequireWildcard(require("react"));
 
 var _CoordsApi = require("../../../lib/CoordsApi");
+
+var _style = require("./style");
+
+var _tokens = require("../../../tokens");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
@@ -35495,17 +35535,24 @@ var Map = function Map() {
   (0, _react.useEffect)(function () {
     var starCoord = (0, _CoordsApi.CalCoords)(coords);
     setData(starCoord);
+    var mymap = L.map("mapId").setView([starCoord.lat, starCoord.lng], 13);
+    L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+      maxZoom: 18,
+      id: "mapbox/streets-v11",
+      tileSize: 512,
+      zoomOffset: -1,
+      accessToken: _tokens.TOKEN_API_MAP
+    }).addTo(mymap);
+    var marker = L.marker([starCoord.lat, starCoord.lng]).addTo(mymap);
   }, []);
-
-  if (data) {
-    return /*#__PURE__*/_react.default.createElement("div", null, data.lat, ", ", data.lng);
-  }
-
-  return /*#__PURE__*/_react.default.createElement("div", null, "Coordinates");
+  return /*#__PURE__*/_react.default.createElement("div", null, "Coordinates", " ", data ? /*#__PURE__*/_react.default.createElement("div", null, data.lat, ", ", data.lng) : "", /*#__PURE__*/_react.default.createElement(_style.MapContainer, {
+    id: "mapId"
+  }));
 };
 
 exports.Map = Map;
-},{"react":"../node_modules/react/index.js","../../../lib/CoordsApi":"../lib/CoordsApi.js"}],"../src/App.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","../../../lib/CoordsApi":"../lib/CoordsApi.js","./style":"../src/pages/PrivateZone/style.js","../../../tokens":"../tokens.js"}],"../src/App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
