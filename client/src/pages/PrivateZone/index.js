@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { CalCoords } from "../../../lib/CoordsApi";
-import { MapContainer } from "./style";
+import { Container, CoordsContainer, MapContainer } from "./style";
 import { TOKEN_API_MAP } from "../../../tokens";
 
 export const Map = () => {
@@ -38,16 +38,23 @@ export const Map = () => {
     const marker = L.marker([starCoord.lat, starCoord.lng]).addTo(mymap);
   }, []);
   return (
-    <div>
-      Coordinates{" "}
-      {data ? (
-        <div>
-          {data.lat}, {data.lng}
-        </div>
-      ) : (
-        ""
-      )}
+    <Container>
+      <CoordsContainer>
+        Coordinates
+        {data ? (
+          <div>
+            <ul>
+              {coords.map((coord) => {
+                return <li>{coord}</li>;
+              })}
+            </ul>
+          </div>
+        ) : (
+          ""
+        )}
+      </CoordsContainer>
+
       <MapContainer id="mapId"></MapContainer>
-    </div>
+    </Container>
   );
 };

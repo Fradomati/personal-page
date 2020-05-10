@@ -35463,14 +35463,34 @@ exports.CalCoords = CalCoords;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MapContainer = void 0;
+exports.MapContainer = exports.CoordsContainer = exports.Container = void 0;
 
 var _styledComponents = _interopRequireDefault(require("styled-components"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n  width: 60%;\n  height: 500px;\n"]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n  width: 30%;\n"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n  height: 500px;\n"]);
+  var data = _taggedTemplateLiteral(["\n  display: flex;\n  width: 100%;\n"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -35481,7 +35501,15 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var MapContainer = _styledComponents.default.div(_templateObject());
+var Container = _styledComponents.default.div(_templateObject());
+
+exports.Container = Container;
+
+var CoordsContainer = _styledComponents.default.div(_templateObject2());
+
+exports.CoordsContainer = CoordsContainer;
+
+var MapContainer = _styledComponents.default.div(_templateObject3());
 
 exports.MapContainer = MapContainer;
 },{"styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js"}],"../tokens.js":[function(require,module,exports) {
@@ -35546,7 +35574,9 @@ var Map = function Map() {
     }).addTo(mymap);
     var marker = L.marker([starCoord.lat, starCoord.lng]).addTo(mymap);
   }, []);
-  return /*#__PURE__*/_react.default.createElement("div", null, "Coordinates", " ", data ? /*#__PURE__*/_react.default.createElement("div", null, data.lat, ", ", data.lng) : "", /*#__PURE__*/_react.default.createElement(_style.MapContainer, {
+  return /*#__PURE__*/_react.default.createElement(_style.Container, null, /*#__PURE__*/_react.default.createElement(_style.CoordsContainer, null, "Coordinates", data ? /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("ul", null, coords.map(function (coord) {
+    return /*#__PURE__*/_react.default.createElement("li", null, coord);
+  }))) : ""), /*#__PURE__*/_react.default.createElement(_style.MapContainer, {
     id: "mapId"
   }));
 };
