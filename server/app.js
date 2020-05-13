@@ -84,4 +84,7 @@ app.locals.title = "Express - Generated with IronGenerator";
 const index = require("./routes/index");
 app.use("/", index);
 
+const coords = require("./routes/coords");
+app.use("/coords", coords);
+
 module.exports = app;
