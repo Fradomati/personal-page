@@ -36329,13 +36329,43 @@ exports.CalCoords = CalCoords;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MapContainer = exports.CoordsContainer = exports.Container = void 0;
+exports.InputBox = exports.ButtonAdd = exports.FormContainer = exports.MapContainer = exports.CoordsContainer = exports.Container = void 0;
 
 var _taggedTemplateLiteral2 = _interopRequireDefault(require("@babel/runtime/helpers/taggedTemplateLiteral"));
 
 var _styledComponents = _interopRequireDefault(require("styled-components"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _templateObject6() {
+  var data = (0, _taggedTemplateLiteral2.default)(["\n  box-sizing: border-box;\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  outline: none;\n  width: 100%;\n  padding: 7px;\n  border: none;\n  border-bottom: 1px solid #ddd;\n  background: transparent;\n  margin-bottom: 10px;\n  margin-right: 10px;\n  height: 45px;\n  padding-right: 50px;\n"]);
+
+  _templateObject6 = function _templateObject6() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject5() {
+  var data = (0, _taggedTemplateLiteral2.default)(["\n  color: #33ba88;\n  background: transparent;\n  border: 0.125em solid;\n  border-radius: 2em;\n  padding: 0.5em;\n  width: 15em;\n  font-size: 1.1em;\n  :hover {\n    background: #33ba88;\n    color: white;\n  }\n"]);
+
+  _templateObject5 = function _templateObject5() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject4() {
+  var data = (0, _taggedTemplateLiteral2.default)(["\n  width: 100%;\n  margin-bottom: 2em;\n  text-align: right;\n"]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
 
 function _templateObject3() {
   var data = (0, _taggedTemplateLiteral2.default)(["\n  width: 60%;\n  height: 500px;\n"]);
@@ -36378,6 +36408,18 @@ exports.CoordsContainer = CoordsContainer;
 var MapContainer = _styledComponents.default.div(_templateObject3());
 
 exports.MapContainer = MapContainer;
+
+var FormContainer = _styledComponents.default.div(_templateObject4());
+
+exports.FormContainer = FormContainer;
+
+var ButtonAdd = _styledComponents.default.button(_templateObject5());
+
+exports.ButtonAdd = ButtonAdd;
+
+var InputBox = _styledComponents.default.input(_templateObject6());
+
+exports.InputBox = InputBox;
 },{"@babel/runtime/helpers/taggedTemplateLiteral":"../node_modules/@babel/runtime/helpers/taggedTemplateLiteral.js","styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js"}],"../tokens.js":[function(require,module,exports) {
 "use strict";
 
@@ -40189,7 +40231,7 @@ var addNewCoords = /*#__PURE__*/function () {
 
           case 2:
             response = _context.sent;
-            console.log("[COORDS ADD] Adding new coords");
+            console.log("[COORDS ADD] Adding new coords", data);
 
           case 4:
           case "end":
@@ -40247,7 +40289,8 @@ var Map = function Map() {
   var _useForm = (0, _reactHookForm.useForm)(),
       register = _useForm.register,
       handleSubmit = _useForm.handleSubmit,
-      errors = _useForm.errors;
+      errors = _useForm.errors,
+      setError = _useForm.setError;
 
   var onSubmit = /*#__PURE__*/function () {
     var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(data) {
@@ -40261,9 +40304,8 @@ var Map = function Map() {
 
             case 2:
               response = _context.sent;
-              console.log("Added coords", response);
 
-            case 4:
+            case 3:
             case "end":
               return _context.stop();
           }
@@ -40276,7 +40318,7 @@ var Map = function Map() {
     };
   }();
 
-  console.log(errors); // FORM //
+  console.log("Error: ", errors); // FORM //
 
   var coords = ["40.395787,-3.697463", "41.131512,-3.8163796", "39.367163,-3.8741367", "40.469882, -3.867181", "52.5063566,12.8643336", "37.7667858,-3.7900676", "37.7489752,-3.7412417", "7.8571809,78.4620488", "41.162251,-8.6919934", "43.7801205,11.1008848"];
   (0, _react.useEffect)(function () {
@@ -40293,16 +40335,17 @@ var Map = function Map() {
     }).addTo(mymap);
     var marker = L.marker([starCoord.lat, starCoord.lng]).addTo(mymap);
   }, []);
-  return /*#__PURE__*/_react.default.createElement(_style.Container, null, /*#__PURE__*/_react.default.createElement("form", {
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_style.FormContainer, null, /*#__PURE__*/_react.default.createElement("form", {
     onSubmit: handleSubmit(onSubmit)
-  }, /*#__PURE__*/_react.default.createElement("input", {
+  }, /*#__PURE__*/_react.default.createElement(_style.InputBox, {
     type: "text",
     placeholder: "name",
     name: "name",
     ref: register({
-      required: true
+      required: true,
+      message: "Campo requerido"
     })
-  }), /*#__PURE__*/_react.default.createElement("input", {
+  }), errors.name && /*#__PURE__*/_react.default.createElement("p", null, "Rellena este campo prezioza"), /*#__PURE__*/_react.default.createElement(_style.InputBox, {
     type: "text",
     placeholder: "coords",
     name: "coords",
@@ -40310,21 +40353,23 @@ var Map = function Map() {
       required: true,
       min: 4
     })
-  }), /*#__PURE__*/_react.default.createElement("input", {
+  }), errors.name && /*#__PURE__*/_react.default.createElement("p", null, "Rellena este campo prezioza"), /*#__PURE__*/_react.default.createElement(_style.InputBox, {
     type: "date",
     placeholder: "date",
     name: "date",
     min: "1960-01-01",
-    ref: register
-  }), /*#__PURE__*/_react.default.createElement("input", {
+    ref: register({
+      required: true
+    })
+  }), /*#__PURE__*/_react.default.createElement(_style.ButtonAdd, {
     type: "submit"
-  })), /*#__PURE__*/_react.default.createElement(_style.CoordsContainer, null, "Coordinates", data ? /*#__PURE__*/_react.default.createElement("div", null, data.lat, ", ", data.lng, /*#__PURE__*/_react.default.createElement("ul", null, coords.map(function (coord, i) {
+  }, "Agregar"))), /*#__PURE__*/_react.default.createElement(_style.Container, null, /*#__PURE__*/_react.default.createElement(_style.CoordsContainer, null, "Coordinates", data ? /*#__PURE__*/_react.default.createElement("div", null, data.lat, ", ", data.lng, /*#__PURE__*/_react.default.createElement("ul", null, coords.map(function (coord, i) {
     return /*#__PURE__*/_react.default.createElement("li", {
       key: i
     }, coord);
   }))) : ""), /*#__PURE__*/_react.default.createElement(_style.MapContainer, {
     id: "mapId"
-  }));
+  })));
 };
 
 exports.Map = Map;

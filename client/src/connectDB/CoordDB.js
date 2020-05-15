@@ -9,5 +9,5 @@ const coordsConnect = axios.create({
 
 export const addNewCoords = async (data) => {
   const response = await coordsConnect.post("/add", data);
-  console.log("[COORDS ADD] Adding new coords");
+  console.log("[COORDS ADD] Adding new coords", data);
 };

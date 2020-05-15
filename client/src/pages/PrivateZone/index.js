@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { CalCoords } from "../../../lib/CoordsApi";
-import { Container, CoordsContainer, MapContainer } from "./style";
+import {
+  Container,
+  CoordsContainer,
+  MapContainer,
+  FormContainer,
+  InputBox,
+  ButtonAdd,
+} from "./style";
 import { TOKEN_API_MAP } from "../../../tokens";
 import { useForm } from "react-hook-form";
 import { addNewCoords } from "../../connectDB/CoordDB";
@@ -9,12 +16,12 @@ export const Map = () => {
   const [data, setData] = useState();
 
   // FORM //
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors, setError } = useForm();
   const onSubmit = async (data) => {
     const response = await addNewCoords(data);
-    console.log("Added coords", response);
   };
-  console.log(errors);
+
+  console.log("Error: ", errors);
   // FORM //
 
   const coords = [
@@ -50,47 +57,53 @@ export const Map = () => {
     const marker = L.marker([starCoord.lat, starCoord.lng]).addTo(mymap);
   }, []);
   return (
-    <Container>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input
-          type="text"
-          placeholder="name"
-          name="name"
-          ref={register({ required: true })}
-        />
-        <input
-          type="text"
-          placeholder="coords"
-          name="coords"
-          ref={register({ required: true, min: 4 })}
-        />
-        <input
-          type="date"
-          placeholder="date"
-          name="date"
-          min="1960-01-01"
-          ref={register}
-        />
+    <>
+      <FormContainer>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <InputBox
+            type="text"
+            placeholder="name"
+            name="name"
+            ref={register({ required: true, message: "Campo requerido" })}
+          />
+          {errors.name && <p>Rellena este campo prezioza</p>}
+          <InputBox
+            type="text"
+            placeholder="coords"
+            name="coords"
+            ref={register({ required: true, min: 4 })}
+          />
+          {errors.name && <p>Rellena este campo prezioza</p>}
+          <InputBox
+            type="date"
+            placeholder="date"
+            name="date"
+            min="1960-01-01"
+            ref={register({ required: true })}
+          />
 
-        <input type="submit" />
-      </form>
-      <CoordsContainer>
-        Coordinates
-        {data ? (
-          <div>
-            {data.lat}, {data.lng}
-            <ul>
-              {coords.map((coord, i) => {
-                return <li key={i}>{coord}</li>;
-              })}
-            </ul>
-          </div>
-        ) : (
-          ""
-        )}
-      </CoordsContainer>
+          <ButtonAdd type="submit">Agregar</ButtonAdd>
+        </form>
+      </FormContainer>
+      <Container>
+        <CoordsContainer>
+          Coordinates
+          {data ? (
+            <div>
+              {data.lat}, {data.lng}
+              <ul>
+                {coords.map((coord, i) => {
+                  return <li key={i}>{coord}</li>;
+                })}
+              </ul>
+            </div>
+          ) : (
+            ""
+          )}
+        </CoordsContainer>
 
-      <MapContainer id="mapId"></MapContainer>
-    </Container>
+        <MapContainer id="mapId"></MapContainer>
+      </Container>
+    </>
   );
 };
