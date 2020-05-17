@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { CalCoords } from "../../../lib/CoordsApi";
+import { TOKEN_API_MAP } from "../../../tokens";
+import { useForm } from "react-hook-form";
+import { addNewCoords } from "../../connectDB/CoordDB";
 import {
   Container,
   CoordsContainer,
@@ -8,17 +11,24 @@ import {
   InputBox,
   ButtonAdd,
 } from "./style";
-import { TOKEN_API_MAP } from "../../../tokens";
-import { useForm } from "react-hook-form";
-import { addNewCoords } from "../../connectDB/CoordDB";
 
 export const Map = () => {
   const [data, setData] = useState();
 
   // FORM //
-  const { register, handleSubmit, errors, setError } = useForm();
+
+  const defValues = {
+    name: "",
+    coords: "",
+    date: "",
+  };
+  const { register, handleSubmit, errors, setError, reset } = useForm({
+    defValues,
+  });
+
   const onSubmit = async (data) => {
     const response = await addNewCoords(data);
+    reset(defValues);
   };
 
   console.log("Error: ", errors);

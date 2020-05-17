@@ -36304,9 +36304,12 @@ exports.CalCoords = void 0;
 
 // Funcion calculo coordenadas
 var CalCoords = function CalCoords(x) {
+  var strg = x;
+  if (x.length > 50) strg = UrlCoords(x); // Si es una url
+
   var lats = [];
   var lngs = [];
-  x.forEach(function (co) {
+  strg.forEach(function (co) {
     lats.push(parseFloat(co.split(",")[0]));
     lngs.push(parseFloat(co.split(",")[1]));
   });
@@ -36323,104 +36326,22 @@ var CalCoords = function CalCoords(x) {
 };
 
 exports.CalCoords = CalCoords;
-},{}],"../src/pages/PrivateZone/style.js":[function(require,module,exports) {
-"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.InputBox = exports.ButtonAdd = exports.FormContainer = exports.MapContainer = exports.CoordsContainer = exports.Container = void 0;
+var UrlCoords = function UrlCoords(url) {
+  var arr = url.split("");
+  var start = arr.indexOf("@");
+  var count = 0;
+  var coords = "";
 
-var _taggedTemplateLiteral2 = _interopRequireDefault(require("@babel/runtime/helpers/taggedTemplateLiteral"));
+  for (var i = start + 1; i < arr.length; i++) {
+    var element = arr[i];
+    if (element == ",") count++;
+    if (count != 2) coords = coords + element;
+  }
 
-var _styledComponents = _interopRequireDefault(require("styled-components"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _templateObject6() {
-  var data = (0, _taggedTemplateLiteral2.default)(["\n  box-sizing: border-box;\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  outline: none;\n  width: 100%;\n  padding: 7px;\n  border: none;\n  border-bottom: 1px solid #ddd;\n  background: transparent;\n  margin-bottom: 10px;\n  margin-right: 10px;\n  height: 45px;\n  padding-right: 50px;\n"]);
-
-  _templateObject6 = function _templateObject6() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject5() {
-  var data = (0, _taggedTemplateLiteral2.default)(["\n  color: #33ba88;\n  background: transparent;\n  border: 0.125em solid;\n  border-radius: 2em;\n  padding: 0.5em;\n  width: 15em;\n  font-size: 1.1em;\n  :hover {\n    background: #33ba88;\n    color: white;\n  }\n"]);
-
-  _templateObject5 = function _templateObject5() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject4() {
-  var data = (0, _taggedTemplateLiteral2.default)(["\n  width: 100%;\n  margin-bottom: 2em;\n  text-align: right;\n"]);
-
-  _templateObject4 = function _templateObject4() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject3() {
-  var data = (0, _taggedTemplateLiteral2.default)(["\n  width: 60%;\n  height: 500px;\n"]);
-
-  _templateObject3 = function _templateObject3() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject2() {
-  var data = (0, _taggedTemplateLiteral2.default)(["\n  width: 30%;\n"]);
-
-  _templateObject2 = function _templateObject2() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject() {
-  var data = (0, _taggedTemplateLiteral2.default)(["\n  display: flex;\n  width: 100%;\n"]);
-
-  _templateObject = function _templateObject() {
-    return data;
-  };
-
-  return data;
-}
-
-var Container = _styledComponents.default.div(_templateObject());
-
-exports.Container = Container;
-
-var CoordsContainer = _styledComponents.default.div(_templateObject2());
-
-exports.CoordsContainer = CoordsContainer;
-
-var MapContainer = _styledComponents.default.div(_templateObject3());
-
-exports.MapContainer = MapContainer;
-
-var FormContainer = _styledComponents.default.div(_templateObject4());
-
-exports.FormContainer = FormContainer;
-
-var ButtonAdd = _styledComponents.default.button(_templateObject5());
-
-exports.ButtonAdd = ButtonAdd;
-
-var InputBox = _styledComponents.default.input(_templateObject6());
-
-exports.InputBox = InputBox;
-},{"@babel/runtime/helpers/taggedTemplateLiteral":"../node_modules/@babel/runtime/helpers/taggedTemplateLiteral.js","styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js"}],"../tokens.js":[function(require,module,exports) {
+  return coords;
+};
+},{}],"../tokens.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40247,7 +40168,104 @@ var addNewCoords = /*#__PURE__*/function () {
 }();
 
 exports.addNewCoords = addNewCoords;
-},{"@babel/runtime/regenerator":"../node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"../node_modules/@babel/runtime/helpers/asyncToGenerator.js","axios":"../node_modules/axios/index.js"}],"../src/pages/PrivateZone/index.js":[function(require,module,exports) {
+},{"@babel/runtime/regenerator":"../node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"../node_modules/@babel/runtime/helpers/asyncToGenerator.js","axios":"../node_modules/axios/index.js"}],"../src/pages/PrivateZone/style.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.InputBox = exports.ButtonAdd = exports.FormContainer = exports.MapContainer = exports.CoordsContainer = exports.Container = void 0;
+
+var _taggedTemplateLiteral2 = _interopRequireDefault(require("@babel/runtime/helpers/taggedTemplateLiteral"));
+
+var _styledComponents = _interopRequireDefault(require("styled-components"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _templateObject6() {
+  var data = (0, _taggedTemplateLiteral2.default)(["\n  box-sizing: border-box;\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  outline: none;\n  width: 100%;\n  padding: 7px;\n  border: none;\n  border-bottom: 1px solid #ddd;\n  background: transparent;\n  margin-bottom: 10px;\n  margin-right: 10px;\n  height: 45px;\n  padding-right: 50px;\n"]);
+
+  _templateObject6 = function _templateObject6() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject5() {
+  var data = (0, _taggedTemplateLiteral2.default)(["\n  color: #33ba88;\n  background: transparent;\n  border: 0.125em solid;\n  border-radius: 2em;\n  padding: 0.5em;\n  width: 15em;\n  font-size: 1.1em;\n  :hover {\n    background: #33ba88;\n    color: white;\n  }\n"]);
+
+  _templateObject5 = function _templateObject5() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject4() {
+  var data = (0, _taggedTemplateLiteral2.default)(["\n  width: 100%;\n  margin-bottom: 2em;\n  text-align: right;\n"]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject3() {
+  var data = (0, _taggedTemplateLiteral2.default)(["\n  width: 60%;\n  height: 500px;\n"]);
+
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject2() {
+  var data = (0, _taggedTemplateLiteral2.default)(["\n  width: 30%;\n"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = (0, _taggedTemplateLiteral2.default)(["\n  display: flex;\n  width: 100%;\n"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+var Container = _styledComponents.default.div(_templateObject());
+
+exports.Container = Container;
+
+var CoordsContainer = _styledComponents.default.div(_templateObject2());
+
+exports.CoordsContainer = CoordsContainer;
+
+var MapContainer = _styledComponents.default.div(_templateObject3());
+
+exports.MapContainer = MapContainer;
+
+var FormContainer = _styledComponents.default.div(_templateObject4());
+
+exports.FormContainer = FormContainer;
+
+var ButtonAdd = _styledComponents.default.button(_templateObject5());
+
+exports.ButtonAdd = ButtonAdd;
+
+var InputBox = _styledComponents.default.input(_templateObject6());
+
+exports.InputBox = InputBox;
+},{"@babel/runtime/helpers/taggedTemplateLiteral":"../node_modules/@babel/runtime/helpers/taggedTemplateLiteral.js","styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js"}],"../src/pages/PrivateZone/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40265,13 +40283,13 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _CoordsApi = require("../../../lib/CoordsApi");
 
-var _style = require("./style");
-
 var _tokens = require("../../../tokens");
 
 var _reactHookForm = require("react-hook-form");
 
 var _CoordDB = require("../../connectDB/CoordDB");
+
+var _style = require("./style");
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
@@ -40286,11 +40304,20 @@ var Map = function Map() {
       setData = _useState2[1]; // FORM //
 
 
-  var _useForm = (0, _reactHookForm.useForm)(),
+  var defValues = {
+    name: "",
+    coords: "",
+    date: ""
+  };
+
+  var _useForm = (0, _reactHookForm.useForm)({
+    defValues: defValues
+  }),
       register = _useForm.register,
       handleSubmit = _useForm.handleSubmit,
       errors = _useForm.errors,
-      setError = _useForm.setError;
+      setError = _useForm.setError,
+      reset = _useForm.reset;
 
   var onSubmit = /*#__PURE__*/function () {
     var _ref = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee(data) {
@@ -40304,8 +40331,9 @@ var Map = function Map() {
 
             case 2:
               response = _context.sent;
+              reset(defValues);
 
-            case 3:
+            case 4:
             case "end":
               return _context.stop();
           }
@@ -40373,7 +40401,7 @@ var Map = function Map() {
 };
 
 exports.Map = Map;
-},{"@babel/runtime/regenerator":"../node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"../node_modules/@babel/runtime/helpers/asyncToGenerator.js","@babel/runtime/helpers/slicedToArray":"../node_modules/@babel/runtime/helpers/slicedToArray.js","react":"../node_modules/react/index.js","../../../lib/CoordsApi":"../lib/CoordsApi.js","./style":"../src/pages/PrivateZone/style.js","../../../tokens":"../tokens.js","react-hook-form":"../node_modules/react-hook-form/dist/react-hook-form.es.js","../../connectDB/CoordDB":"../src/connectDB/CoordDB.js"}],"../src/App.js":[function(require,module,exports) {
+},{"@babel/runtime/regenerator":"../node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"../node_modules/@babel/runtime/helpers/asyncToGenerator.js","@babel/runtime/helpers/slicedToArray":"../node_modules/@babel/runtime/helpers/slicedToArray.js","react":"../node_modules/react/index.js","../../../lib/CoordsApi":"../lib/CoordsApi.js","../../../tokens":"../tokens.js","react-hook-form":"../node_modules/react-hook-form/dist/react-hook-form.es.js","../../connectDB/CoordDB":"../src/connectDB/CoordDB.js","./style":"../src/pages/PrivateZone/style.js"}],"../src/App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40458,7 +40486,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34425" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41351" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
