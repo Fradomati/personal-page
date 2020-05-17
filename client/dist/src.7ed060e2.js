@@ -35442,7 +35442,13 @@ var Profile = function Profile() {
 };
 
 exports.Profile = Profile;
-},{"react":"../node_modules/react/index.js"}],"../node_modules/regenerator-runtime/runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js"}],"../node_modules/@babel/runtime/helpers/readOnlyError.js":[function(require,module,exports) {
+function _readOnlyError(name) {
+  throw new Error("\"" + name + "\" is read-only");
+}
+
+module.exports = _readOnlyError;
+},{}],"../node_modules/regenerator-runtime/runtime.js":[function(require,module,exports) {
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  *
@@ -36300,16 +36306,16 @@ module.exports = _slicedToArray;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.CalCoords = void 0;
+exports.UrlCoords = exports.EstructureCoord = exports.CalCoords = void 0;
 
-// Funcion calculo coordenadas
+// Function the Coords Half
 var CalCoords = function CalCoords(x) {
-  var strg = x;
-  if (x.length > 50) strg = UrlCoords(x); // Si es una url
-
   var lats = [];
   var lngs = [];
-  strg.forEach(function (co) {
+  x.forEach(function (co) {
+    var strg = co;
+    if (co.length > 50) strg = UrlCoords(x); // Si es una url
+
     lats.push(parseFloat(co.split(",")[0]));
     lngs.push(parseFloat(co.split(",")[1]));
   });
@@ -36323,9 +36329,24 @@ var CalCoords = function CalCoords(x) {
     lat: lat,
     lng: lng
   };
-};
+}; // Function return Object with Coords
+
 
 exports.CalCoords = CalCoords;
+
+var EstructureCoord = function EstructureCoord(coord) {
+  var strg = coord;
+  if (coord.length > 50) strg = UrlCoords(x);
+  var lat = parseFloat(strg.split(",")[0]);
+  var lng = parseFloat(strg.split(",")[1]);
+  return {
+    lat: lat,
+    lng: lng
+  };
+}; // Function URL to Coords (string)
+
+
+exports.EstructureCoord = EstructureCoord;
 
 var UrlCoords = function UrlCoords(url) {
   var arr = url.split("");
@@ -36341,6 +36362,8 @@ var UrlCoords = function UrlCoords(url) {
 
   return coords;
 };
+
+exports.UrlCoords = UrlCoords;
 },{}],"../tokens.js":[function(require,module,exports) {
 "use strict";
 
@@ -40124,7 +40147,7 @@ module.exports = require('./lib/axios');
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.addNewCoords = void 0;
+exports.GetCoords = exports.addNewCoords = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -40165,9 +40188,41 @@ var addNewCoords = /*#__PURE__*/function () {
   return function addNewCoords(_x) {
     return _ref.apply(this, arguments);
   };
-}();
+}(); // Get Coords
+
 
 exports.addNewCoords = addNewCoords;
+
+var GetCoords = /*#__PURE__*/function () {
+  var _ref2 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
+    var response;
+    return _regenerator.default.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            console;
+            _context2.next = 3;
+            return coordsConnect.get("/get");
+
+          case 3:
+            response = _context2.sent;
+            console.log("Array de coordenadas", response.data.coords);
+            return _context2.abrupt("return", response.data.coords);
+
+          case 6:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  }));
+
+  return function GetCoords() {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
+exports.GetCoords = GetCoords;
 },{"@babel/runtime/regenerator":"../node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"../node_modules/@babel/runtime/helpers/asyncToGenerator.js","axios":"../node_modules/axios/index.js"}],"../src/pages/PrivateZone/style.js":[function(require,module,exports) {
 "use strict";
 
@@ -40273,6 +40328,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Map = void 0;
 
+var _readOnlyError2 = _interopRequireDefault(require("@babel/runtime/helpers/readOnlyError"));
+
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
@@ -40298,10 +40355,18 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Map = function Map() {
-  var _useState = (0, _react.useState)(),
+  var _useState = (0, _react.useState)({
+    lat: 0,
+    lng: 0
+  }),
       _useState2 = (0, _slicedToArray2.default)(_useState, 2),
       data = _useState2[0],
-      setData = _useState2[1]; // FORM //
+      setData = _useState2[1];
+
+  var _useState3 = (0, _react.useState)(["0,0"]),
+      _useState4 = (0, _slicedToArray2.default)(_useState3, 2),
+      coords = _useState4[0],
+      setCoords = _useState4[1]; // FORM //
 
 
   var defValues = {
@@ -40348,11 +40413,12 @@ var Map = function Map() {
 
   console.log("Error: ", errors); // FORM //
 
-  var coords = ["40.395787,-3.697463", "41.131512,-3.8163796", "39.367163,-3.8741367", "40.469882, -3.867181", "52.5063566,12.8643336", "37.7667858,-3.7900676", "37.7489752,-3.7412417", "7.8571809,78.4620488", "41.162251,-8.6919934", "43.7801205,11.1008848"];
   (0, _react.useEffect)(function () {
     var starCoord = (0, _CoordsApi.CalCoords)(coords);
     setData(starCoord);
-    var mymap = L.map("mapId").setView([starCoord.lat, starCoord.lng], 13);
+  }, []);
+  (0, _react.useEffect)(function () {
+    var mymap = L.map("mapId").setView([data.lat, data.lng], 13);
     L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
       maxZoom: 18,
@@ -40361,47 +40427,85 @@ var Map = function Map() {
       zoomOffset: -1,
       accessToken: _tokens.TOKEN_API_MAP
     }).addTo(mymap);
-    var marker = L.marker([starCoord.lat, starCoord.lng]).addTo(mymap);
+    var marker = L.marker([data.lat, data.lng]).addTo(mymap);
+    L.marker([41.131512, -3.8163796]).addTo(mymap);
   }, []);
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_style.FormContainer, null, /*#__PURE__*/_react.default.createElement("form", {
-    onSubmit: handleSubmit(onSubmit)
-  }, /*#__PURE__*/_react.default.createElement(_style.InputBox, {
-    type: "text",
-    placeholder: "name",
-    name: "name",
-    ref: register({
-      required: true,
-      message: "Campo requerido"
-    })
-  }), errors.name && /*#__PURE__*/_react.default.createElement("p", null, "Rellena este campo prezioza"), /*#__PURE__*/_react.default.createElement(_style.InputBox, {
-    type: "text",
-    placeholder: "coords",
-    name: "coords",
-    ref: register({
-      required: true,
-      min: 4
-    })
-  }), errors.name && /*#__PURE__*/_react.default.createElement("p", null, "Rellena este campo prezioza"), /*#__PURE__*/_react.default.createElement(_style.InputBox, {
-    type: "date",
-    placeholder: "date",
-    name: "date",
-    min: "1960-01-01",
-    ref: register({
-      required: true
-    })
-  }), /*#__PURE__*/_react.default.createElement(_style.ButtonAdd, {
-    type: "submit"
-  }, "Agregar"))), /*#__PURE__*/_react.default.createElement(_style.Container, null, /*#__PURE__*/_react.default.createElement(_style.CoordsContainer, null, "Coordinates", data ? /*#__PURE__*/_react.default.createElement("div", null, data.lat, ", ", data.lng, /*#__PURE__*/_react.default.createElement("ul", null, coords.map(function (coord, i) {
-    return /*#__PURE__*/_react.default.createElement("li", {
-      key: i
-    }, coord);
-  }))) : ""), /*#__PURE__*/_react.default.createElement(_style.MapContainer, {
-    id: "mapId"
-  })));
+  (0, _react.useEffect)(function () {
+    return /*#__PURE__*/(0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
+      var arr, arrCoords;
+      return _regenerator.default.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return (0, _CoordDB.GetCoords)();
+
+            case 2:
+              arr = _context2.sent;
+              arrCoords = [];
+              arr.forEach(function (e) {
+                var co = e.coords;
+                if (co.length > 50) co = ((0, _readOnlyError2.default)("co"), (0, _CoordsApi.UrlCoords)(co));
+                arrCoords.push(co);
+              });
+              setCoords(arrCoords);
+
+            case 6:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+  }, [data]);
+
+  if (!data) {
+    return /*#__PURE__*/_react.default.createElement("p", null, "Cargando...");
+  } else {
+    return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_style.FormContainer, null, /*#__PURE__*/_react.default.createElement("form", {
+      onSubmit: handleSubmit(onSubmit)
+    }, /*#__PURE__*/_react.default.createElement(_style.InputBox, {
+      type: "text",
+      placeholder: "name",
+      name: "name",
+      ref: register({
+        required: true,
+        message: "Campo requerido"
+      })
+    }), errors.name && /*#__PURE__*/_react.default.createElement("p", null, "Rellena este campo prezioza"), /*#__PURE__*/_react.default.createElement(_style.InputBox, {
+      type: "text",
+      placeholder: "coords",
+      name: "coords",
+      ref: register({
+        required: true,
+        min: 4
+      })
+    }), errors.name && /*#__PURE__*/_react.default.createElement("p", null, "Rellena este campo prezioza"), /*#__PURE__*/_react.default.createElement(_style.InputBox, {
+      type: "date",
+      placeholder: "date",
+      name: "date",
+      min: "1960-01-01",
+      ref: register({
+        required: true
+      })
+    }), /*#__PURE__*/_react.default.createElement(_style.ButtonAdd, {
+      type: "submit"
+    }, "Agregar")), /*#__PURE__*/_react.default.createElement("button", {
+      onClick: function onClick() {
+        return (0, _CoordDB.GetCoords)();
+      }
+    }, "Push Me!")), /*#__PURE__*/_react.default.createElement(_style.Container, null, /*#__PURE__*/_react.default.createElement(_style.CoordsContainer, null, "Coordinates", data ? /*#__PURE__*/_react.default.createElement("div", null, data.lat, ", ", data.lng, /*#__PURE__*/_react.default.createElement("ul", null, coords.map(function (coord, i) {
+      return /*#__PURE__*/_react.default.createElement("li", {
+        key: i
+      }, coord);
+    }))) : ""), /*#__PURE__*/_react.default.createElement(_style.MapContainer, {
+      id: "mapId"
+    })));
+  }
 };
 
 exports.Map = Map;
-},{"@babel/runtime/regenerator":"../node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"../node_modules/@babel/runtime/helpers/asyncToGenerator.js","@babel/runtime/helpers/slicedToArray":"../node_modules/@babel/runtime/helpers/slicedToArray.js","react":"../node_modules/react/index.js","../../../lib/CoordsApi":"../lib/CoordsApi.js","../../../tokens":"../tokens.js","react-hook-form":"../node_modules/react-hook-form/dist/react-hook-form.es.js","../../connectDB/CoordDB":"../src/connectDB/CoordDB.js","./style":"../src/pages/PrivateZone/style.js"}],"../src/App.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/readOnlyError":"../node_modules/@babel/runtime/helpers/readOnlyError.js","@babel/runtime/regenerator":"../node_modules/@babel/runtime/regenerator/index.js","@babel/runtime/helpers/asyncToGenerator":"../node_modules/@babel/runtime/helpers/asyncToGenerator.js","@babel/runtime/helpers/slicedToArray":"../node_modules/@babel/runtime/helpers/slicedToArray.js","react":"../node_modules/react/index.js","../../../lib/CoordsApi":"../lib/CoordsApi.js","../../../tokens":"../tokens.js","react-hook-form":"../node_modules/react-hook-form/dist/react-hook-form.es.js","../../connectDB/CoordDB":"../src/connectDB/CoordDB.js","./style":"../src/pages/PrivateZone/style.js"}],"../src/App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

@@ -1,12 +1,11 @@
-// Funcion calculo coordenadas
+// Function the Coords Half
 
 export const CalCoords = (x) => {
-  let strg = x;
-  if (x.length > 50) strg = UrlCoords(x); // Si es una url
-
   const lats = [];
   const lngs = [];
-  strg.forEach((co) => {
+  x.forEach((co) => {
+    let strg = co;
+    if (co.length > 50) strg = UrlCoords(x); // Si es una url
     lats.push(parseFloat(co.split(",")[0]));
     lngs.push(parseFloat(co.split(",")[1]));
   });
@@ -24,7 +23,20 @@ export const CalCoords = (x) => {
   return { lat: lat, lng: lng };
 };
 
-const UrlCoords = (url) => {
+// Function return Object with Coords
+
+export const EstructureCoord = (coord) => {
+  let strg = coord;
+  if (coord.length > 50) strg = UrlCoords(x);
+
+  const lat = parseFloat(strg.split(",")[0]);
+  const lng = parseFloat(strg.split(",")[1]);
+
+  return { lat: lat, lng: lng };
+};
+
+// Function URL to Coords (string)
+export const UrlCoords = (url) => {
   const arr = url.split("");
   const start = arr.indexOf("@");
   let count = 0;
