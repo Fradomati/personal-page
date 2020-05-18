@@ -3,9 +3,12 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: flex;
   width: 100%;
+  justify-content: space-around;
 `;
 
 export const CoordsContainer = styled.div`
+  overflow-y: scroll;
+  height: 50vh;
   width: 30%;
 `;
 
@@ -48,4 +51,33 @@ export const InputBox = styled.input`
   margin-right: 10px;
   height: 45px;
   padding-right: 50px;
+`;
+
+export const Card = styled.div`
+  width: 95%;
+  display: block;
+  text-align: center;
+  border: 1px solid #d1d0d0;
+  margin-bottom: 0.4em;
+  border-radius: 0.5em;
+  :hover {
+    background: #33ba88;
+    color: white;
+  }
+`;
+
+export const Li = styled.li`
+  list-style-type: none;
+`;
+
+export const Link = styled.span`
+  text-decoration: none;
+`;
+
+export const Title = styled.p`
+  font-size: 2em;
+`;
+
+export const SubTitle = styled.p`
+  font-size: 1.3em;
 `;

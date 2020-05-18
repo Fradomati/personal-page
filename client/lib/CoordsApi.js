@@ -51,3 +51,12 @@ export const UrlCoords = (url) => {
 
   return coords;
 };
+
+// Function Order to Date
+
+export const OrderCoords = (arr) => {
+  const order = arr.sort(function (a, b) {
+    return new Date(a.date) - new Date(b.date);
+  });
+  return order;
+};

@@ -36306,7 +36306,7 @@ module.exports = _slicedToArray;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.UrlCoords = exports.EstructureCoord = exports.CalCoords = void 0;
+exports.OrderCoords = exports.UrlCoords = exports.EstructureCoord = exports.CalCoords = void 0;
 
 // Function the Coords Half
 var CalCoords = function CalCoords(x) {
@@ -36361,9 +36361,19 @@ var UrlCoords = function UrlCoords(url) {
   }
 
   return coords;
-};
+}; // Function Order to Date
+
 
 exports.UrlCoords = UrlCoords;
+
+var OrderCoords = function OrderCoords(arr) {
+  var order = arr.sort(function (a, b) {
+    return new Date(a.date) - new Date(b.date);
+  });
+  return order;
+};
+
+exports.OrderCoords = OrderCoords;
 },{}],"../tokens.js":[function(require,module,exports) {
 "use strict";
 
@@ -40229,13 +40239,63 @@ exports.GetCoords = GetCoords;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.InputBox = exports.ButtonAdd = exports.FormContainer = exports.MapContainer = exports.CoordsContainer = exports.Container = void 0;
+exports.SubTitle = exports.Title = exports.Link = exports.Li = exports.Card = exports.InputBox = exports.ButtonAdd = exports.FormContainer = exports.MapContainer = exports.CoordsContainer = exports.Container = void 0;
 
 var _taggedTemplateLiteral2 = _interopRequireDefault(require("@babel/runtime/helpers/taggedTemplateLiteral"));
 
 var _styledComponents = _interopRequireDefault(require("styled-components"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _templateObject11() {
+  var data = (0, _taggedTemplateLiteral2.default)(["\n  font-size: 1.3em;\n"]);
+
+  _templateObject11 = function _templateObject11() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject10() {
+  var data = (0, _taggedTemplateLiteral2.default)(["\n  font-size: 2em;\n"]);
+
+  _templateObject10 = function _templateObject10() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject9() {
+  var data = (0, _taggedTemplateLiteral2.default)(["\n  text-decoration: none;\n"]);
+
+  _templateObject9 = function _templateObject9() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject8() {
+  var data = (0, _taggedTemplateLiteral2.default)(["\n  list-style-type: none;\n"]);
+
+  _templateObject8 = function _templateObject8() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject7() {
+  var data = (0, _taggedTemplateLiteral2.default)(["\n  width: 95%;\n  display: block;\n  text-align: center;\n  border: 1px solid #d1d0d0;\n  margin-bottom: 0.4em;\n  border-radius: 0.5em;\n  :hover {\n    background: #33ba88;\n    color: white;\n  }\n"]);
+
+  _templateObject7 = function _templateObject7() {
+    return data;
+  };
+
+  return data;
+}
 
 function _templateObject6() {
   var data = (0, _taggedTemplateLiteral2.default)(["\n  box-sizing: border-box;\n  -webkit-box-sizing: border-box;\n  -moz-box-sizing: border-box;\n  outline: none;\n  width: 100%;\n  padding: 7px;\n  border: none;\n  border-bottom: 1px solid #ddd;\n  background: transparent;\n  margin-bottom: 10px;\n  margin-right: 10px;\n  height: 45px;\n  padding-right: 50px;\n"]);
@@ -40278,7 +40338,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = (0, _taggedTemplateLiteral2.default)(["\n  width: 30%;\n"]);
+  var data = (0, _taggedTemplateLiteral2.default)(["\n  overflow-y: scroll;\n  height: 50vh;\n  width: 30%;\n"]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -40288,7 +40348,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = (0, _taggedTemplateLiteral2.default)(["\n  display: flex;\n  width: 100%;\n"]);
+  var data = (0, _taggedTemplateLiteral2.default)(["\n  display: flex;\n  width: 100%;\n  justify-content: space-around;\n"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -40320,6 +40380,26 @@ exports.ButtonAdd = ButtonAdd;
 var InputBox = _styledComponents.default.input(_templateObject6());
 
 exports.InputBox = InputBox;
+
+var Card = _styledComponents.default.div(_templateObject7());
+
+exports.Card = Card;
+
+var Li = _styledComponents.default.li(_templateObject8());
+
+exports.Li = Li;
+
+var Link = _styledComponents.default.span(_templateObject9());
+
+exports.Link = Link;
+
+var Title = _styledComponents.default.p(_templateObject10());
+
+exports.Title = Title;
+
+var SubTitle = _styledComponents.default.p(_templateObject11());
+
+exports.SubTitle = SubTitle;
 },{"@babel/runtime/helpers/taggedTemplateLiteral":"../node_modules/@babel/runtime/helpers/taggedTemplateLiteral.js","styled-components":"../node_modules/styled-components/dist/styled-components.browser.esm.js"}],"../src/pages/PrivateZone/index.js":[function(require,module,exports) {
 "use strict";
 
@@ -40423,7 +40503,13 @@ var Map = function Map() {
   // }, []);
 
   (0, _react.useEffect)(function () {
-    var mymap = L.map("mapId").setView([data.lat, data.lng], 13);
+    var container = L.DomUtil.get("mapId");
+
+    if (container != null) {
+      container._leaflet_id = null;
+    }
+
+    var mymap = L.map("mapId").setView(center ? [center.lat, center.lng] : [data.lat, data.lng], 13);
     L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
       attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
       maxZoom: 18,
@@ -40433,20 +40519,24 @@ var Map = function Map() {
       accessToken: _tokens.TOKEN_API_MAP
     }).addTo(mymap);
     var marker = L.marker([data.lat, data.lng]).addTo(mymap);
-    L.marker([41.131512, -3.8163796]).addTo(mymap);
-  }, []);
+    center ? L.marker([center.lat, center.lng]).bindPopup("Aquí estuvo Bei!").openPopup().addTo(mymap) : null;
+  }, [center]);
   (0, _react.useEffect)(function () {
     var arrCoords = [];
+    var nameDateCoords = [];
     (0, _CoordDB.GetCoords)().then(function (arr) {
       arr.forEach(function (e) {
+        nameDateCoords.push(e);
         var co = e.coords;
         if (co.length > 50) co = ((0, _readOnlyError2.default)("co"), (0, _CoordsApi.UrlCoords)(co));
         arrCoords.push(co);
       });
-      var halfCoords = (0, _CoordsApi.CalCoords)(arrCoords); // <-- Estás probando si funciona todo aquí.
+      var halfCoords = (0, _CoordsApi.CalCoords)(arrCoords); // Media de las Coordenadas
 
-      setData(halfCoords);
-      setCoords(arrCoords);
+      setData(halfCoords); // Change the State with the new Coord
+
+      var OrderNameDateCoords = (0, _CoordsApi.OrderCoords)(nameDateCoords);
+      setCoords(OrderNameDateCoords);
     });
   }, []);
 
@@ -40481,17 +40571,20 @@ var Map = function Map() {
       })
     }), /*#__PURE__*/_react.default.createElement(_style.ButtonAdd, {
       type: "submit"
-    }, "Agregar")), /*#__PURE__*/_react.default.createElement("button", {
-      onClick: function onClick() {
-        return (0, _CoordDB.GetCoords)();
-      }
-    }, "Push Me!")), /*#__PURE__*/_react.default.createElement(_style.Container, null, /*#__PURE__*/_react.default.createElement(_style.CoordsContainer, null, "Coordinates", data ? /*#__PURE__*/_react.default.createElement("div", null, data.lat, ", ", data.lng, /*#__PURE__*/_react.default.createElement("ul", null, coords.map(function (coord, i) {
-      return /*#__PURE__*/_react.default.createElement("li", {
-        key: i
-      }, coord);
-    }))) : ""), /*#__PURE__*/_react.default.createElement(_style.MapContainer, {
+    }, "Agregar"))), /*#__PURE__*/_react.default.createElement(_style.Container, null, /*#__PURE__*/_react.default.createElement(_style.Title, null, data.lat, ", ", data.lng)), /*#__PURE__*/_react.default.createElement(_style.Container, null, /*#__PURE__*/_react.default.createElement(_style.MapContainer, {
       id: "mapId"
-    })));
+    }), /*#__PURE__*/_react.default.createElement(_style.CoordsContainer, null, data ? /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("ul", null, coords.map(function (coord, i) {
+      return /*#__PURE__*/_react.default.createElement(_style.Li, {
+        key: i
+      }, /*#__PURE__*/_react.default.createElement(_style.Link, {
+        onClick: function onClick() {
+          var newCenter = (0, _CoordsApi.EstructureCoord)(coord.coords);
+          setCenter(newCenter);
+          map.off();
+          console.log(center);
+        }
+      }, /*#__PURE__*/_react.default.createElement(_style.Card, null, /*#__PURE__*/_react.default.createElement(_style.SubTitle, null, coord.date), /*#__PURE__*/_react.default.createElement("p", null, /*#__PURE__*/_react.default.createElement("b", null, coord.name)), /*#__PURE__*/_react.default.createElement("p", null, coord.coords))));
+    }))) : "")));
   }
 };
 
