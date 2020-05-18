@@ -40355,18 +40355,23 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Map = function Map() {
-  var _useState = (0, _react.useState)({
+  var _useState = (0, _react.useState)(),
+      _useState2 = (0, _slicedToArray2.default)(_useState, 2),
+      center = _useState2[0],
+      setCenter = _useState2[1];
+
+  var _useState3 = (0, _react.useState)({
     lat: 0,
     lng: 0
   }),
-      _useState2 = (0, _slicedToArray2.default)(_useState, 2),
-      data = _useState2[0],
-      setData = _useState2[1];
-
-  var _useState3 = (0, _react.useState)(["0,0"]),
       _useState4 = (0, _slicedToArray2.default)(_useState3, 2),
-      coords = _useState4[0],
-      setCoords = _useState4[1]; // FORM //
+      data = _useState4[0],
+      setData = _useState4[1];
+
+  var _useState5 = (0, _react.useState)(["0,0"]),
+      _useState6 = (0, _slicedToArray2.default)(_useState5, 2),
+      coords = _useState6[0],
+      setCoords = _useState6[1]; // FORM //
 
 
   var defValues = {
@@ -40412,11 +40417,11 @@ var Map = function Map() {
   }();
 
   console.log("Error: ", errors); // FORM //
+  // useEffect(() => {
+  //   const starCoord = CalCoords(coords);
+  //   setData(starCoord);
+  // }, []);
 
-  (0, _react.useEffect)(function () {
-    var starCoord = (0, _CoordsApi.CalCoords)(coords);
-    setData(starCoord);
-  }, []);
   (0, _react.useEffect)(function () {
     var mymap = L.map("mapId").setView([data.lat, data.lng], 13);
     L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
@@ -40431,33 +40436,19 @@ var Map = function Map() {
     L.marker([41.131512, -3.8163796]).addTo(mymap);
   }, []);
   (0, _react.useEffect)(function () {
-    return /*#__PURE__*/(0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee2() {
-      var arr, arrCoords;
-      return _regenerator.default.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.next = 2;
-              return (0, _CoordDB.GetCoords)();
+    var arrCoords = [];
+    (0, _CoordDB.GetCoords)().then(function (arr) {
+      arr.forEach(function (e) {
+        var co = e.coords;
+        if (co.length > 50) co = ((0, _readOnlyError2.default)("co"), (0, _CoordsApi.UrlCoords)(co));
+        arrCoords.push(co);
+      });
+      var halfCoords = (0, _CoordsApi.CalCoords)(arrCoords); // <-- Estás probando si funciona todo aquí.
 
-            case 2:
-              arr = _context2.sent;
-              arrCoords = [];
-              arr.forEach(function (e) {
-                var co = e.coords;
-                if (co.length > 50) co = ((0, _readOnlyError2.default)("co"), (0, _CoordsApi.UrlCoords)(co));
-                arrCoords.push(co);
-              });
-              setCoords(arrCoords);
-
-            case 6:
-            case "end":
-              return _context2.stop();
-          }
-        }
-      }, _callee2);
-    }));
-  }, [data]);
+      setData(halfCoords);
+      setCoords(arrCoords);
+    });
+  }, []);
 
   if (!data) {
     return /*#__PURE__*/_react.default.createElement("p", null, "Cargando...");
@@ -40590,7 +40581,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41351" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44719" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

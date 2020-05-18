@@ -13,6 +13,7 @@ import {
 } from "./style";
 
 export const Map = () => {
+  const [center, setCenter] = useState();
   const [data, setData] = useState({ lat: 0, lng: 0 });
   const [coords, setCoords] = useState(["0,0"]);
 
@@ -35,10 +36,10 @@ export const Map = () => {
   console.log("Error: ", errors);
   // FORM //
 
-  useEffect(() => {
-    const starCoord = CalCoords(coords);
-    setData(starCoord);
-  }, []);
+  // useEffect(() => {
+  //   const starCoord = CalCoords(coords);
+  //   setData(starCoord);
+  // }, []);
 
   useEffect(() => {
     const mymap = L.map("mapId").setView([data.lat, data.lng], 13);
@@ -59,19 +60,19 @@ export const Map = () => {
     L.marker([41.131512, -3.8163796]).addTo(mymap);
   }, []);
 
-  useEffect(
-    () => async () => {
-      const arr = await GetCoords();
-      const arrCoords = [];
+  useEffect(() => {
+    const arrCoords = [];
+    GetCoords().then((arr) => {
       arr.forEach((e) => {
         const co = e.coords;
         if (co.length > 50) co = UrlCoords(co);
         arrCoords.push(co);
       });
+      const halfCoords = CalCoords(arrCoords); // <-- Estás probando si funciona todo aquí.
+      setData(halfCoords);
       setCoords(arrCoords);
-    },
-    [data]
-  );
+    });
+  }, []);
 
   if (!data) {
     return <p>Cargando...</p>;
